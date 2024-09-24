@@ -3,6 +3,9 @@ package org.translation;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * Example working with JSON data. The data consists of an array with two objects in it.
  * Each object has two key-value pairs in it.
@@ -24,6 +27,11 @@ public class JSONDemo {
         System.out.println(jsonObject.getString("key1"));
         System.out.println(jsonObject.getInt("key2"));
         System.out.println(getKeyOneOfSecond(jsonArray));
+        System.out.println(jsonArray);
+        System.out.println(jsonArray.getJSONObject(0).keySet());
+        Set<String> keySet = jsonArray.getJSONObject(0).keySet();
+        ArrayList<String> keys = new ArrayList<>(jsonArray.getJSONObject(0).keySet());
+        System.out.println(keys);
     }
 
     /**
