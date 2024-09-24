@@ -34,7 +34,6 @@ public class CountryCodeConverter {
 
         this.codeToCountryMap = new HashMap<>();
         this.countryToCodeMap = new HashMap<>();
-        this.total = 0;
 
         try {
             List<String> lines = Files.readAllLines(Paths.get(getClass()
@@ -44,11 +43,9 @@ public class CountryCodeConverter {
                 String line = lines.get(i);
                 String[] parts = line.split("\t");
 
-                this.codeToCountryMap.put(parts[0].trim(), parts[2].trim());
-                this.countryToCodeMap.put(parts[2].trim(), parts[0].trim());
-                this.total += 1;
+                this.codeToCountryMap.put(parts[2], parts[0]);
+                this.countryToCodeMap.put(parts[0], parts[2]);
             }
-
         }
         catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
@@ -62,7 +59,7 @@ public class CountryCodeConverter {
      * @return the name of the country corresponding to the code
      */
     public String fromCountryCode(String code) {
-        return this.codeToCountryMap.get(code);
+        return this.codeToCountryMap.get(code.toUpperCase());
     }
 
     /**
@@ -79,6 +76,6 @@ public class CountryCodeConverter {
      * @return how many countries are included in this code converter.
      */
     public int getNumCountries() {
-        return this.total;
+        return this.codeToCountryMap.size();
     }
 }

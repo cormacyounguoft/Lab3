@@ -5,9 +5,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+// import java.util.Iterator;
+// import java.util.Map;
 
 import org.json.JSONArray;
 
@@ -17,6 +17,8 @@ import org.json.JSONArray;
  */
 public class JSONTranslator implements Translator {
 
+    private static final String ALPHA3 = "alpha3";
+    private static final String ALPHA2 = "alpha2";
     private final JSONArray jsonArray;
 
     /**
@@ -48,9 +50,9 @@ public class JSONTranslator implements Translator {
     @Override
     public List<String> getCountryLanguages(String country) {
         for (int i = 0; i < jsonArray.length(); i++) {
-            if (jsonArray.getJSONObject(i).getString("alpha3").equals(country)) {
-                int countryID = i;
-                ArrayList<String> listLanguages = new ArrayList<>(jsonArray.getJSONObject(countryID).keySet());
+            if (jsonArray.getJSONObject(i).getString(ALPHA3).equals(country) || jsonArray.getJSONObject(i)
+                    .getString(ALPHA2).equals(country)) {
+                ArrayList<String> listLanguages = new ArrayList<>(jsonArray.getJSONObject(i).keySet());
                 listLanguages.remove("id");
                 listLanguages.remove("alpha2");
                 listLanguages.remove("alpha3");
@@ -65,7 +67,7 @@ public class JSONTranslator implements Translator {
         ArrayList<String> listCountries = new ArrayList<>(jsonArray.length());
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            listCountries.add(jsonArray.getJSONObject(i).getString("alpha3"));
+            listCountries.add(jsonArray.getJSONObject(i).getString(ALPHA3));
         }
         return listCountries;
     }
@@ -73,8 +75,9 @@ public class JSONTranslator implements Translator {
     @Override
     public String translate(String country, String language) {
         for (int i = 0; i < jsonArray.length(); i++) {
-            if (jsonArray.getJSONObject(i).getString("alpha3").equals(country) | jsonArray.getJSONObject(i).getString("alpha2").equals(country)) {
-                return jsonArray.getJSONObject(i).getString("language");
+            if (jsonArray.getJSONObject(i).getString(ALPHA3).equals(country) || jsonArray.getJSONObject(i)
+                    .getString(ALPHA2).equals(country)) {
+                return jsonArray.getJSONObject(i).getString(language);
             }
         }
         return null;
