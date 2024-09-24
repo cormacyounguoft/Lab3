@@ -50,8 +50,7 @@ public class JSONTranslator implements Translator {
     @Override
     public List<String> getCountryLanguages(String country) {
         for (int i = 0; i < jsonArray.length(); i++) {
-            if (jsonArray.getJSONObject(i).getString(ALPHA3).equals(country) || jsonArray.getJSONObject(i)
-                    .getString(ALPHA2).equals(country)) {
+            if (jsonArray.getJSONObject(i).getString(ALPHA3).equals(country.toLowerCase())) {
                 ArrayList<String> listLanguages = new ArrayList<>(jsonArray.getJSONObject(i).keySet());
                 listLanguages.remove("id");
                 listLanguages.remove("alpha2");
@@ -59,7 +58,7 @@ public class JSONTranslator implements Translator {
                 return listLanguages;
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -75,8 +74,7 @@ public class JSONTranslator implements Translator {
     @Override
     public String translate(String country, String language) {
         for (int i = 0; i < jsonArray.length(); i++) {
-            if (jsonArray.getJSONObject(i).getString(ALPHA3).equals(country) || jsonArray.getJSONObject(i)
-                    .getString(ALPHA2).equals(country)) {
+            if (jsonArray.getJSONObject(i).getString(ALPHA3).equals(country)) {
                 return jsonArray.getJSONObject(i).getString(language);
             }
         }

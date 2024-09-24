@@ -15,7 +15,6 @@ public class CountryCodeConverter {
 
     private Map<String, String> codeToCountryMap;
     private Map<String, String> countryToCodeMap;
-    private Integer total;
 
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
@@ -68,7 +67,7 @@ public class CountryCodeConverter {
      * @return the 3-letter code of the country
      */
     public String fromCountry(String country) {
-        return this.countryToCodeMap.get(country);
+        return this.countryToCodeMap.get(country).toLowerCase();
     }
 
     /**
